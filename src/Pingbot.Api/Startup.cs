@@ -14,6 +14,7 @@ namespace Pingbot.Api
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHealthChecks();
             AddDiscordClient(services);
             services.AddHostedService<DiscordWorker>();
         }
@@ -26,10 +27,7 @@ namespace Pingbot.Api
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Hello World!");
-                });
+                endpoints.MapHealthChecks("/service/health");
             });
         }
         
