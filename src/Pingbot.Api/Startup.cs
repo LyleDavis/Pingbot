@@ -34,7 +34,7 @@ namespace Pingbot.Api
         private void AddDiscordClient(IServiceCollection services)
         {
             var shards = Environment.GetEnvironmentVariable("DISCORD_SHARDS");
-            if (shards == null) throw new ArgumentNullException("DISCORD_SHARDS");
+            if (string.IsNullOrEmpty(shards)) throw new ArgumentNullException("DISCORD_SHARDS");
             var socketConfig = new DiscordSocketConfig
             {
                 TotalShards = int.Parse(shards)

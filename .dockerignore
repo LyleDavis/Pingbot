@@ -1,0 +1,7 @@
+**/bin/
+**/obj/
+**/out/
+**/.idea/
+**/.git/
+**/README.md
+**/launchSettings.json

@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  pingbot:
+    build: .
+    ports:
+      - '8080:8080'
+    environment:
+      LOG_LEVEL: DEBUG
+      LOG_FORMAT: TEXT
+      ASPNETCORE_ENVIRONMENT: Development
+      PORT: 8080
+      DISCORD_SHARDS: 1
+      BOT_TOKEN: ${BOT_TOKEN}

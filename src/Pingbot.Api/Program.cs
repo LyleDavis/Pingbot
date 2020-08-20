@@ -22,8 +22,9 @@ namespace Pingbot.Api
         {
             try
             {
-                Log.Information("Booting in {Environment}...", 
-                    Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"));
+                var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+                if (string.IsNullOrEmpty(env)) throw new ArgumentNullException("ASPNETCORE_ENVIRONMENT");
+                Log.Information("Booting in {Environment}...", env);
                 CreateHostBuilder(args).Build().Run();
             }
             catch (Exception ex)
@@ -36,12 +37,14 @@ namespace Pingbot.Api
             }
         }
 
-        private static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
+        private static IHostBuilder CreateHostBuilder(string[] args)
+        {
+            return Host.CreateDefaultBuilder(args)
                 .UseSerilog()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
                 });
+        }
     }
 }

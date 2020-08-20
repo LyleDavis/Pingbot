@@ -28,8 +28,7 @@ namespace Pingbot.Api
             _client.Log += LogAsync;
             _client.MessageReceived += MessageReceived;
             var botToken = Environment.GetEnvironmentVariable("BOT_TOKEN");
-            if (botToken == null)
-                throw new ArgumentNullException("BOT_TOKEN");
+            if (string.IsNullOrEmpty(botToken)) throw new ArgumentNullException("BOT_TOKEN");
             await _client.LoginAsync(TokenType.Bot, botToken);
             await _client.StartAsync();
             await Task.Delay(Timeout.Infinite, stoppingToken);
