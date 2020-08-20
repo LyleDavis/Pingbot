@@ -16,4 +16,6 @@ USER runner
 WORKDIR /app
 COPY --from=build-env /app/out .
 ENV ASPNETCORE_URLS=http://+:8080
+HEALTHCHECK --interval=30s --timeout=5s \
+  CMD curl --fail http://localhost:8080/service/health || exit 1
 ENTRYPOINT ["dotnet", "Pingbot.Api.dll"]
