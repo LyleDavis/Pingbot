@@ -7,7 +7,8 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",        
         "LOG_LEVEL": "INFO",
-        "LOG_FORMAT": "TEXT"
+        "LOG_FORMAT": "TEXT",
+        "DISCORD_SHARDS": "1"
       }
     }
   }

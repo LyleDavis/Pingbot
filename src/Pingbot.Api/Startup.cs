@@ -1,3 +1,5 @@
+using System;
+using Discord.WebSocket;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -12,6 +14,8 @@ namespace Pingbot.Api
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            AddDiscordClient(services);
+            services.AddHostedService<DiscordWorker>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -27,6 +31,17 @@ namespace Pingbot.Api
                     await context.Response.WriteAsync("Hello World!");
                 });
             });
+        }
+        
+        private void AddDiscordClient(IServiceCollection services)
+        {
+            var shards = Environment.GetEnvironmentVariable("DISCORD_SHARDS");
+            if (shards == null) throw new ArgumentNullException("DISCORD_SHARDS");
+            var socketConfig = new DiscordSocketConfig
+            {
+                TotalShards = int.Parse(shards)
+            };
+            services.AddSingleton(_ => new DiscordShardedClient(socketConfig));
         }
     }
 }
